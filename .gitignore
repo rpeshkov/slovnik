@@ -1,0 +1,8 @@
+# Dep folders
+vendor/
+
+# Built binaries
+cmd/api-server/debug
+
+# MacOS specific files
+.DS_Store
