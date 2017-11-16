@@ -3,6 +3,7 @@ vendor/
 
 # Built binaries
 cmd/api-server/debug
+cmd/telegram-bot/debug
 
 # MacOS specific files
 .DS_Store

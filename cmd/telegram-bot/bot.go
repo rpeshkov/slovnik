@@ -74,7 +74,6 @@ type Bot struct {
 // NewBot creates and initializes new bot
 func NewBot(config *Config, templates *Template) (*Bot, error) {
 	botAPI, err := tgbotapi.NewBotAPI(config.BotID)
-
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to init bot")
 	}
@@ -126,17 +125,24 @@ func (bot *Bot) Listen() {
 func (bot *Bot) handleMessage(update *tgbotapi.Update) {
 	words, err := bot.translator.Translate(update.Message.Text, slovnik.Cz)
 	if err != nil {
+		bot.respondError(update.Message.Chat.ID, "Something bad happened :(")
 		log.Println(err)
+		return
 	}
 
 	messageText := bot.templates.Translation(words)
+
 	msg := tgbotapi.NewMessage(update.Message.Chat.ID, messageText)
 	msg.ParseMode = tgbotapi.ModeMarkdown
 
-	keyboard := bot.addMessageKeyboard(words)
-	if keyboard != nil {
-		msg.ReplyMarkup = keyboard
+	hasPhrases := len(words) == 1 && len(words[0].Samples) > 0
+	if hasPhrases {
+		keyboard := bot.addMessageKeyboard(words)
+		if keyboard != nil {
+			msg.ReplyMarkup = keyboard
+		}
 	}
+
 	_, err = bot.api.Send(msg)
 
 	if err != nil {
@@ -144,25 +150,50 @@ func (bot *Bot) handleMessage(update *tgbotapi.Update) {
 	}
 }
 
+// respondError writes an error to the chat
+func (bot *Bot) respondError(updateID int64, text string) {
+	msg := tgbotapi.NewMessage(updateID, text)
+	_, err := bot.api.Send(msg)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 func (bot *Bot) handleCallbackQuery(update *tgbotapi.Update) {
 	callbackData := update.CallbackQuery.Data
+	chatID := update.CallbackQuery.Message.Chat.ID
+	messageID := update.CallbackQuery.Message.MessageID
 
 	if strings.HasPrefix(callbackData, "phrases:") {
 		w := strings.TrimPrefix(callbackData, "phrases:")
+
 		words, err := bot.translator.Translate(w, slovnik.Cz)
+		if err != nil {
+			bot.respondError(chatID, "Error occured when I tried to get phrases :(")
+			log.Println(err)
+			return
+		}
+
 		messageText := bot.templates.Phrases(words)
-		msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, messageText)
+
+		msg := tgbotapi.NewMessage(chatID, messageText)
 		msg.ParseMode = tgbotapi.ModeMarkdown
 
 		_, err = bot.api.Send(msg)
 		if err != nil {
 			log.Println(err)
+			return
 		}
 
-		editMsg := tgbotapi.NewEditMessageText(update.CallbackQuery.Message.Chat.ID, update.CallbackQuery.Message.MessageID, bot.templates.Translation(words))
+		editMsg := tgbotapi.NewEditMessageText(chatID, messageID, bot.templates.Translation(words))
 		editMsg.ReplyMarkup = nil
 		editMsg.ParseMode = tgbotapi.ModeMarkdown
 		_, err = bot.api.Send(editMsg)
+
+		if err != nil {
+			log.Println(err)
+			return
+		}
 	}
 }
 
