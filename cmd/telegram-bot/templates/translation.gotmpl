@@ -1,0 +1,5 @@
+{{define "translation"}}{{ $length := len . }}{{ if gt $length 1 }}{{template "short" .}}
+{{- else if eq $length 1}}{{template "full" index . 0}}
+{{else}}Указанное слово не найдено
+{{end -}}
+{{end}}

@@ -1,0 +1,8 @@
+{{define "phrases"}}{{ $length := len . }}{{ if eq $length 1 }}{{ $word := index . 0}}
+Фразы со словом *{{$word.Word}}*
+{{ range $word.Samples }}
+❝ *{{ .Phrase }}*
+❞ {{ .Translation }}
+{{end -}}
+{{end -}}
+{{end}}

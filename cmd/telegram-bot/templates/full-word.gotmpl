@@ -1,0 +1,24 @@
+{{ define "full" }}*{{.Word}}* - {{join .Translations ", "}}
+
+*{{.WordType}}*
+
+{{- if .Synonyms}}
+
+*Synonyms:*
+{{join .Synonyms ", "}}
+
+{{- end}}
+
+{{- if .Antonyms}}
+
+*Antonyms:*
+{{join .Antonyms ", "}}
+
+{{- end}}
+
+{{- if .DerivedWords}}
+
+*Derived words:*
+{{join .DerivedWords ", "}}
+
+{{- end}}{{end}}
