@@ -5,5 +5,8 @@ vendor/
 cmd/api-server/debug
 cmd/telegram-bot/debug
 
+# Internal
+launch.sh
+
 # MacOS specific files
 .DS_Store

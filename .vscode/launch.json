@@ -16,11 +16,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceRoot}/cmd/telegram-bot/",
-            "env": {
-                "SLOVNIK_BOT_ID": "376873748:AAHohDsIkeMbdI40_h7914UZ33by9hn2jCg",
-                "SLOVNIK_API_URL": "http://localhost:8080"
-            }
+            "program": "${workspaceRoot}/cmd/telegram-bot/"
         }
     ]
 }
