@@ -21,7 +21,8 @@ func main() {
 
 	router.
 		Methods(http.MethodGet).
-		Path("/api/translate/{word}").
+		Path("/api/translate").
+		Queries("word", "{word}").
 		HandlerFunc(translate(translator))
 
 	cors := handlers.CORS()

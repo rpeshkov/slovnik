@@ -41,9 +41,14 @@ func NewSlovnikClient(baseURL string, httpClient *http.Client) (*slovnikClient, 
 
 // Translate word
 func (c *slovnikClient) Translate(word string, language slovnik.Language) ([]*slovnik.Word, error) {
-	const methodURL = "/api/translate/"
+	const methodURL = "/translate"
 	u := *c.baseURL
-	u.Path = path.Join(u.Path, methodURL, word)
+	u.Path = path.Join(u.Path, methodURL)
+	q := u.Query()
+	q.Add("word", word)
+	u.RawQuery = q.Encode()
+
+	log.Println(u.String())
 	r, err := c.client.Get(u.String())
 	if err != nil {
 		return nil, err

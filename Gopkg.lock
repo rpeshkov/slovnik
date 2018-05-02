@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/go-telegram-bot-api/telegram-bot-api"
+  packages = ["."]
+  revision = "0e0af0c480ea98e982d5f4d45fb39577c6ab1e3e"
+  version = "v4.6.2"
+
+[[projects]]
   name = "github.com/gorilla/context"
   packages = ["."]
   revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
@@ -26,14 +32,23 @@
   version = "v0.8.0"
 
 [[projects]]
+  name = "github.com/technoweenie/multipartstreamer"
+  packages = ["."]
+  revision = "a90a01d73ae432e2611d178c18367fbaa13e0154"
+  version = "v1.0.1"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["html","html/atom"]
+  packages = [
+    "html",
+    "html/atom"
+  ]
   revision = "9dfe39835686865bff950a07b394c12a98ddc811"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f29e4d8bb6867827e3c34543a4882639aeeb594d960cfe7b18c376d6cfd48a90"
+  inputs-digest = "55ade5e7ab7d923e9439439a145fbe308ec2419ab16ff1a1f8f56f0da87be13a"
   solver-name = "gps-cdcl"
   solver-version = 1
