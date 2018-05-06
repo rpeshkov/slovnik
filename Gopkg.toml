@@ -24,3 +24,7 @@
 [[constraint]]
   branch = "master"
   name = "golang.org/x/net"
+
+[[constraint]]
+  name = "github.com/PuerkitoBio/goquery"
+  version = "1.4.0"
