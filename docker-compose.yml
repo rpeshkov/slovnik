@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  slovnik_bot:
+    container_name: slovnik_bot
+    restart: always
+    ports:
+      - "9100:8080"
+    dns: 8.8.8.8
+    build:
+      context: .
+      dockerfile: ./cmd/telegram-bot/Dockerfile
+    env_file:
+      - slovnik-vars.env

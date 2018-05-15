@@ -22,8 +22,8 @@ type slovnikClient struct {
 	baseURL *url.URL
 }
 
-// NewSlovnikClient creates new client for accessing slovnik web server
-func NewSlovnikClient(baseURL string, httpClient *http.Client) (*slovnikClient, error) {
+// newSlovnikClient creates new client for accessing slovnik web server
+func newSlovnikClient(baseURL string, httpClient *http.Client) (*slovnikClient, error) {
 	var c *http.Client
 
 	if httpClient == nil {
@@ -83,7 +83,7 @@ func NewBot(config *Config, templates *Template) (*Bot, error) {
 		return nil, errors.Wrap(err, "failed to init bot")
 	}
 
-	slovnikClient, err := NewSlovnikClient(config.SlovnikURL, nil)
+	slovnikClient, err := newSlovnikClient(config.SlovnikURL, nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to init slovnikClient")
 	}

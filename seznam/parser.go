@@ -55,6 +55,8 @@ func (s *Parser) Parse(pageBody io.Reader) ([]*slovnik.Word, error) {
 	return results, nil
 }
 
+// parseMultiple parses results node for multiple results. Multiple results are present when
+// mistyped word was provided for translation
 func parseMultiple(resultsNode *goquery.Selection) ([]*slovnik.Word, error) {
 	result := []*slovnik.Word{}
 	resultsNode.Find(".mistype li").Each(func(i int, s *goquery.Selection) {
@@ -66,6 +68,7 @@ func parseMultiple(resultsNode *goquery.Selection) ([]*slovnik.Word, error) {
 	return result, nil
 }
 
+// parseOne parses full page of translation result and returns Word structure filled by data from page
 func parseOne(resultsNode *goquery.Selection) (slovnik.Word, error) {
 	w := slovnik.Word{}
 

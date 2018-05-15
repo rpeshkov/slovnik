@@ -45,6 +45,7 @@ func InitConfig() (*Config, error) {
 	return &config, nil
 }
 
+// IsWebhook returns true if webhook URL is set
 func (c *Config) IsWebhook() bool {
 	return len(c.WebhookURL) > 0
 }
